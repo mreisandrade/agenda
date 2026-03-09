@@ -74,6 +74,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
+''' Base de Dados
+    - Por padrão, o Django usa SQLite3 como base de dados
+    - Esses dados podem ser vistos no DBeaver
+    - O SQLite não é uma base de dados comumente usada em 
+    produção, mas sim usada para desevolvimento
+    - Quando for para a produção, no final do projeto, é que
+    o banco de dados será migrado para outro banco de dados
+
+Links: 
+    + Models
+        https://docs.djangoproject.com/pt-br/4.2/topics/db/models/
+    + Referência de campos que podem ser criados
+        https://docs.djangoproject.com/pt-br/4.2/ref/models/fields/#field-choices 
+'''
+
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
@@ -107,9 +122,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
