@@ -111,6 +111,7 @@ svg {
   border-radius: var(--default-border-radius);
 }
 
+/* Não permite que a tabela não passe dos limites */
 .responsive-table {
   width: 100%;
   overflow-x: auto;
