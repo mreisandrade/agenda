@@ -59,3 +59,14 @@ class ContactAdmin(admin.ModelAdmin):
         'id',
         'phone',
     ]
+
+
+@admin.register(models.Category)
+class CategoryAdmin(admin.ModelAdmin):
+    # Lista de campos mostrados na área admin
+    # É um iterável (tupla ou lista)
+    list_display = [
+        # O id é criado automaticamente
+        'id',
+        'name',
+    ]

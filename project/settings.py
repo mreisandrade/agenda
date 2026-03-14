@@ -126,7 +126,10 @@ LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 
-USE_I18N = True
+# Refere-se a tradução
+# Recomendado desativar caso não seja utilizado para fins de
+# otimização
+USE_I18N = False
 
 USE_TZ = True
 
@@ -140,3 +143,13 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'base_static',
 ]
+
+# Para onde vão os arquivos ao enviar o comando collectstatic
+# python manage.py collectstatic
+# A pasta static deve ser adicionada no gitignore
+STATIC_ROOT = BASE_DIR / 'static'
+
+# Arquivos que são enviados pelo usuário
+# A pasta media também deve ser adicionada no gitignore
+MEDIA_URL = 'media/'
+MEDIA_ROOT =  BASE_DIR / 'media'

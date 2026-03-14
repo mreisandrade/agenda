@@ -16,9 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# Usada para concatenar as urls das imagens
+from django.conf.urls.static import static
+# Importa as configurações de settings.py, já que este 
+# módulo não pode ser importado diretamente
+from django.conf import settings
+
 
 urlpatterns = [
     # Cria a url home do site (app contact)
     path('', include('contact.urls')),
     path('admin/', admin.site.urls),
 ]
+
+# Configurando os links das imagens
+urlpatterns += static(
+    settings.MEDIA_URL, 
+    document_root=settings.MEDIA_ROOT, 
+)
+# Configurando os links para os arquivos estáticos
+urlpatterns += static(
+    settings.STATIC_URL, 
+    document_root=settings.STATIC_ROOT, 
+)
