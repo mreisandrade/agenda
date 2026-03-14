@@ -20,11 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# É sugerido mudar a secret key quando subir para produção
 SECRET_KEY = 'django-insecure-2*gmc587)w4v@stnvy17d@kw=$3^--9^72ra#=79lk%n8-*du7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# É necessário colocar o domínio do site para subir para produção
 ALLOWED_HOSTS = []
 
 
@@ -153,3 +155,9 @@ STATIC_ROOT = BASE_DIR / 'static'
 # A pasta media também deve ser adicionada no gitignore
 MEDIA_URL = 'media/'
 MEDIA_ROOT =  BASE_DIR / 'media'
+
+# Importando as variáveis locais do módulo local_settings.py
+try:
+    from project.local_settings import *
+except ImportError:
+    ...
