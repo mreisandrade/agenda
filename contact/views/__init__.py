@@ -6,6 +6,6 @@
     - Equivalente ao views.py padrão do Django (foi excluído
     para evitar conflito com o pacote atual)
     - Toda vez que for adicionado um novo arquivo no pacote 
-    views, é necessário import-a-lo aqui
+    views, é necessário importá-lo aqui
 '''
 from .contact_views import *
