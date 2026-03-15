@@ -19,6 +19,7 @@ class ContactAdmin(admin.ModelAdmin):
         'first_name',
         'last_name',
         'phone',
+        'show',
     ]
 
     # Ordenando as listas
@@ -50,6 +51,7 @@ class ContactAdmin(admin.ModelAdmin):
     list_editable = [
         'first_name',
         'last_name',
+        'show',
     ]
 
     # Torna aquele campo um link para abrir o dado
