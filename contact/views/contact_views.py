@@ -23,6 +23,7 @@ def index(request):
 
     # Aquivos que são enviados para a view
     context = { 
+        'site_title': 'Contatos',
         'contacts': contacts,
     }
 
@@ -69,8 +70,11 @@ def contact(request, contact_id):
     #     Contact.objects.filter(pk=contact_id, show=True),
     # )
 
+    contact_name = f'{single_contact.first_name} {single_contact.last_name}'
+
     # Aquivos que são enviados para a view
     context = { 
+        'site_title': contact_name,
         'contact': single_contact,
     }
 
