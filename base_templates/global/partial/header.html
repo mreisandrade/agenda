@@ -16,7 +16,10 @@
         {% comment %} 
             O método get vai atrelar a pesquisa à URL
         {% endcomment %}
-        <form action="" method="get">
+        <form 
+            action="{% url "contact:search" %}" 
+            method="get"
+        >
             <input 
                 type="text"  
                 class="search-input"
@@ -26,7 +29,22 @@
                     q de query, usado pelo Google 
                 {% endcomment %}
                 name="q"
-            >
+                {% comment %} 
+                    Formas de pegar a chave da pesquisa para
+                    ser mantida no campo
+                {% endcomment %}
+                {% comment %} 
+                    Dessa forma, o valor vem da view
+                    value="{{ search_value }}" 
+                {% endcomment %}
+                {% comment %} 
+                    Dessa forma, o valor vem do request, que
+                    temos acesso dentro desse documento.
+                    Pode-se chamar funções mais simples para
+                    a chamada do Django, como strip, dessa forma
+                {% endcomment %}
+                value="{{ request.GET.q.strip }}"
+                >
         </form>
     </div>
 </header>

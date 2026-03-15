@@ -1,11 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 # Importando o model dos contatos (database)
 from contact.models import Contact
 # Usado para levar a exceção de página não encontrada (Erro 404)
 from django.http import Http404
+# Classe para usar condições OR (ou)
+from django.db.models import Q
 
 
 # Create your views here.
+# Página principal dos contatos
 def index(request):
     # Coletando os dados dos contatos
     # Ordenando por ordem decrescente de id
@@ -25,6 +28,55 @@ def index(request):
     context = { 
         'site_title': 'Contatos',
         'contacts': contacts,
+    }
+
+    return render(
+        request,
+        'contact/index.html',
+        context=context,
+    )
+
+
+# Contatos filtrados pela barra de pesquisa
+def search(request):
+    # Valores enviados pelo form
+    # search_value = request.GET
+    # Tenta obter a chave q. Caso não ache, retorna ''
+    search_value = request.GET.get('q', '')
+    search_value = search_value.strip()
+
+    # Caso não seja encontrado nada, redireciona para o index
+    if not search_value:
+        return redirect('contact:index')
+    
+    # Forma de buscar dados
+    # Para adicionar o lookup, coloque o nome do campo, seguido
+    #  (__ - dunder score) e informe o lookup desejado
+    # exact: case sensitite - é exatamente igual
+    # iexact: case insensitite - é exatamente igual
+    # contains: case insensitite - contém esse dado
+    # contains: case sensitite - contém esse dado
+    # in: está em um iterável
+    # e outros (ver link)
+    # https://docs.djangoproject.com/en/4.2/ref/models/querysets/#field-lookups
+
+    contacts = Contact.objects \
+    .filter(show=True) \
+    .filter(
+        # O que permite fazer a operação OR (ou)
+        Q(first_name__icontains=search_value) |
+        Q(last_name__icontains=search_value) |
+        Q(phone__icontains=search_value) |
+        Q(email__icontains=search_value)
+    ) \
+    .order_by('-id')
+
+    # Aquivos que são enviados para a view
+    context = { 
+        'site_title': 'Search',
+        'contacts': contacts,
+        # Enviando a variável para matenter o valor da pesquisa
+        'search_value': search_value,
     }
 
     return render(
