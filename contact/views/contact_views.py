@@ -5,6 +5,8 @@ from contact.models import Contact
 from django.http import Http404
 # Classe para usar condições OR (ou)
 from django.db.models import Q
+# Paginação 
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -16,7 +18,14 @@ def index(request):
 
     # Coletando os dados dos contatos que devem ser mostrados
     # Ordenando por ordem decrescente de id
-    contacts = Contact.objects.filter(show=True).order_by('-id')[:10]
+    contacts = Contact.objects.filter(show=True).order_by('-id')
+
+    # Paginação
+    # 10: número máximo de itens por página
+    paginator = Paginator(contacts, 10)
+    # Criando os objetos da página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     # Pode-se usar fatiamento nos dados
     # Ex.: contacts = Contact.objects.filter(show=True)[0:10]
@@ -27,7 +36,8 @@ def index(request):
     # Aquivos que são enviados para a view
     context = { 
         'site_title': 'Contatos',
-        'contacts': contacts,
+        # 'contacts': contacts, # antes da paginação
+        'page_obj': page_obj, # depois da paginação
     }
 
     return render(
@@ -71,10 +81,20 @@ def search(request):
     ) \
     .order_by('-id')
 
+    # Paginação
+    # 10: número máximo de itens por página
+    paginator = Paginator(contacts, 10)
+    # Criando os objetos da página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    # Nesse caso, foi necessário mudar todos os links para
+    # incluir a variável q, pois o paginator muda isso
+
     # Aquivos que são enviados para a view
     context = { 
         'site_title': 'Search',
-        'contacts': contacts,
+        # 'contacts': contacts, # antes da paginação
+        'page_obj': page_obj, # depois da paginação
         # Enviando a variável para matenter o valor da pesquisa
         'search_value': search_value,
     }

@@ -5,7 +5,7 @@
     {% comment %} 
         Exibe os contatos apenas se eles forem enviados
     {% endcomment %}
-    {% if contacts %}
+    {% if page_obj %}
         <div class="responsive-table">
             <table class="contacts-table">
                 {% comment %} Título da tabela {% endcomment %}
@@ -24,7 +24,7 @@
                 </thead>
                 {% comment %} Contatos {% endcomment %}
                 <tbody>
-                    {% for contact in contacts %}
+                    {% for contact in page_obj %}
                         <tr class="table-row">
                             <td class="table-cell">
                                 <a 
