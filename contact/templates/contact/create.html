@@ -1,0 +1,43 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+    <div class="form-wrapper">
+
+    <h2>Contact</h2>
+    
+    {% comment %} 
+        O método post é usado para dados mais sensíveis, como 
+        senhas, pois o método GET insere variáveis na URL.
+        Esse método também possibilita o envio de imagens.
+
+        enctype="multipart/form-data"
+            Necessário para enviar arquivos
+    {% endcomment %}
+
+    <form 
+      action=""
+      method="POST"
+      enctype="multipart/form-data"
+    >
+
+      <div class="form-content">
+        <div class="form-group">
+          <label for="id_first_name">LABEL</label>
+          <input type="text" name="first_name" maxlength="255" id="id_first_name">
+        </div>
+      </div>
+
+      <div class="form-content">
+        <div class="form-group">
+          <button class="btn" type="submit">Send</button>
+          {% comment %} 
+            Limpa o formulário  
+                <button class="btn" type="reset">Reset</button>
+          {% endcomment %}
+        </div>
+      </div>
+
+    </form>
+  </div>
+{% endblock content %}
+

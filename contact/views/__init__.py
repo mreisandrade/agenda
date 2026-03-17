@@ -9,3 +9,4 @@
     views, é necessário importá-lo aqui
 '''
 from .contact_views import *
+from .contact_forms import *

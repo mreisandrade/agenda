@@ -5,10 +5,22 @@ from contact import views
 app_name = 'contact'
 
 urlpatterns = [
-    # Vizualização do contato
-    path('<int:contact_id>/', views.contact, name='contact'),
-    # Vizualização dos contatos filtrados pela pesquisa
-    path('search/', views.search, name='search'),
     # Caminho padrão a partir do contact/
     path('', views.index, name='index'),
+    # Vizualização dos contatos filtrados pela pesquisa
+    path('search/', views.search, name='search'),
+
+    # Como é padronizado a criação de URLs
+    # contact (CRUD)
+    path('contact/<int:contact_id>/detail/', views.contact, name='contact'), # Leitura 
+    path('contact/create/', views.create, name='create'), # Criação
+    # path('contact/<int:contact_id>/update/', views.contact, name='contact'), # Atualizando 
+    # path('contact/<int:contact_id>/delete/', views.contact, name='contact'), # Deletar 
+
+    # Exemplo para dados dos usuários
+    # users (CRUD)
+    # path('users/<int:contact_id>/detail/', views.contact, name='contact'), # Leitura 
+    # path('users/create/', views.contact, name='contact'), # Criação
+    # path('users/<int:contact_id>/update/', views.contact, name='contact'), # Atualizando 
+    # path('users/<int:contact_id>/delete/', views.contact, name='contact'), # Deletar 
 ]
