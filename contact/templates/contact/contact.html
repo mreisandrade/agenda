@@ -21,5 +21,30 @@
                 category.id
         {% endcomment %}
         <p><b>Category:</b> {{ contact.category.name }} </p>
+
+        {% comment %}  
+            O botão de Update está dentro de um a pois é somente
+            leitura (GET), enquanto que o Delete está dentro de
+            um form pois ele realizada uma ação sensível, e 
+            precisa do método POST.
+
+            OU SEJA, QUALQUER ALTERAÇÃO OU EXCLUSÃO DEVE SER
+            FEITA COM O MÉTODO POST.
+        {% endcomment %}
+        
+        <div class="contact-links">
+            <a class="btn btn-link" href="{% url "contact:update" contact.id %}">Update</a>
+            <form action="{% url "contact:delete" contact.id %}" method="post">
+                {% csrf_token %}
+                {% if confirmation == 'no' %}
+                    <input type="hidden" name="confirmation" value="yes">
+                    <button class="btn btn-link btn-delete" type="submit">Confirma?</button>
+                {% else %}
+                    <button class="btn btn-link btn-delete" type="submit">Delete</button>
+                {% endif %}
+            </form>
+        </div>
     </div>
+
+
 {% endblock content %}

@@ -61,7 +61,7 @@ def create(request):
     ) 
   
 
-# View para criar contatos
+# View para atualizar um contato
 def update(request, contact_id):
     # Obtém o contato
     contact = get_object_or_404(
@@ -122,3 +122,34 @@ def update(request, contact_id):
         'contact/create.html',
         context=context,
     ) 
+
+
+# View para deletar um contato
+def delete(request, contact_id):
+    # Obtém o contato
+    contact = get_object_or_404(
+        Contact, 
+        id=contact_id,
+        show=True,
+    )
+
+    # Criando uma confirmação
+    # Deve existir um input chamado confirmation
+    # Se não existir, seja no
+    confirmation = request.POST.get('confirmation', 'no')
+    print(confirmation)
+
+    if confirmation == 'yes':
+        # Deleta o contato
+        contact.delete()
+        # Redireciona para a página principal
+        return redirect('contact:index')
+
+    return render(
+        request,
+        'contact/contact.html',
+        {
+            'contact': contact,
+            'confirmation': confirmation,
+        }
+    )

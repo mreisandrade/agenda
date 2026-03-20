@@ -1,4 +1,3 @@
-/* Variáveis usadas ao longo do CSS */
 :root {
   --spacing: 1.5rem;
   --link-dark-color: rgb(0, 83, 134);
@@ -111,7 +110,6 @@ svg {
   border-radius: var(--default-border-radius);
 }
 
-/* Não permite que a tabela não passe dos limites */
 .responsive-table {
   width: 100%;
   overflow-x: auto;
@@ -241,6 +239,11 @@ svg {
   border: 1px solid rgba(255, 255, 0, 90%);
 }
 
+.message.info {
+  background: rgba(0, 0, 255, 0.3);
+  border: 1px solid rgba(0, 0, 255, 0.3);
+}
+
 .form-wrapper {
   max-width: 60rem;
   margin: var(--spacing) auto;
@@ -255,15 +258,11 @@ svg {
   flex-direction: column;
   padding-bottom: var(--spacing);
 }
-
-/* Erro gerando pelo Django nos formulários */
 .errorlist {
   list-style: none;
   font-size: var(--smaller-font-size);
   color: tomato;
 }
-
-/* Erros que não são de campos */
 .errorlist.nonfield {
   color: inherit;
 }
@@ -317,4 +316,24 @@ svg {
 .btn:active {
   filter: brightness(80%);
   box-shadow: 0 0 5px var(--link-dark-color);
+}
+
+.contact-links {
+  margin-block: calc(var(--small-font-size) * 2);
+  display: flex;
+  align-items: center;
+  gap: 0 var(--spacing);
+}
+
+.btn-link {
+  font-size: var(--small-font-size);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 1rem;
+  display: block;
+  line-height: var(--small-font-size);
+}
+
+.btn-delete {
+  background: tomato;
 }
