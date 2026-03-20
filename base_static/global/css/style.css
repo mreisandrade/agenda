@@ -255,11 +255,15 @@ svg {
   flex-direction: column;
   padding-bottom: var(--spacing);
 }
+
+/* Erro gerando pelo Django nos formulários */
 .errorlist {
   list-style: none;
   font-size: var(--smaller-font-size);
   color: tomato;
 }
+
+/* Erros que não são de campos */
 .errorlist.nonfield {
   color: inherit;
 }

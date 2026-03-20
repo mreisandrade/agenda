@@ -108,7 +108,8 @@ class Contact(models.Model):
     # Inserir os nomes dos campos
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
+    # verbose_name: nome exibido no formulário
+    phone = models.CharField(max_length=50, verbose_name='Telefone')
     # Atribuir blank = True torna o campo opcional
     email = models.EmailField(max_length=254, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
