@@ -10,24 +10,35 @@ from contact.views import Contact
 class ContactForm(forms.ModelForm):
     # Outra forma de mudar os widgets e outras características
     # Recriando o campo
-    first_name = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                # Atriibutos da tag
-                'class': 'classe-a classe-b',
-                'placeholder': 'Escreva aqui',
-            },
-        ),
-        label='Primeiro nome',
-        # Texto de ajuda
-        # Necessário adicionar no HTML
-        help_text='Texto de ajuda para seu usuário',
-    )
+    # first_name = forms.CharField(
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             # Atriibutos da tag
+    #             'class': 'classe-a classe-b',
+    #             'placeholder': 'Escreva aqui',
+    #         },
+    #     ),
+    #     label='Primeiro nome',
+    #     # Texto de ajuda
+    #     # Necessário adicionar no HTML
+    #     help_text='Texto de ajuda para seu usuário',
+    # )
 
     # Adicionando outro campo que não foi criado no model
     # qualquer = forms.CharField(
     #     widget=forms.TextInput(),
     # )
+
+    # Alterando o campo da picture
+    # Normalmente, a imagem não é apagada do servidor
+    picture = forms.ImageField(
+        widget=forms.FileInput(
+            attrs={
+                # Aceita qualquer imagem
+                'accept': 'image/*'
+            },
+        ),
+    )
 
 
     # Configurações do form
@@ -42,6 +53,7 @@ class ContactForm(forms.ModelForm):
             'email',
             'description',
             'category',
+            'picture',
         ]
         # Configurando o widgets dos campos
         # forms.PasswordInput()

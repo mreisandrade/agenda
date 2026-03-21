@@ -22,6 +22,15 @@
         {% endcomment %}
         <p><b>Category:</b> {{ contact.category.name }} </p>
 
+        {% comment %} 
+            Verificando se existe a imagem de perfil
+        {% endcomment %}
+        {% if contact.picture %}
+            <p>
+                <img src=" {{ contact.picture.url }}" alt="{{ contact.first_name}} {{ contact.last_name }}">
+            </p>
+        {% endif %}
+
         {% comment %}  
             O botão de Update está dentro de um a pois é somente
             leitura (GET), enquanto que o Delete está dentro de

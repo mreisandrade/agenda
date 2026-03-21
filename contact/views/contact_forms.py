@@ -16,7 +16,8 @@ def create(request):
     # Reenvia os dados para a página (mantém os dados)
     if request.method == 'POST':
         # Passando o formulário para o html
-        form = ContactForm(request.POST)
+        # Todo lugar com POST também deve receber FILES
+        form = ContactForm(request.POST, request.FILES)
         context = {
             'form': form,
             # Passando a variável reversa para a página
@@ -79,7 +80,8 @@ def update(request, contact_id):
     if request.method == 'POST':
         # Passando o formulário para o html com as informações
         # do contato que será atualizado
-        form = ContactForm(request.POST, instance=contact)
+        # Todo lugar com POST também deve receber FILES
+        form = ContactForm(request.POST, request.FILES, instance=contact)
         context = {
             'form': form,
             # Passando a variável reversa para a página
