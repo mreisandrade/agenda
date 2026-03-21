@@ -1,0 +1,86 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+    <div class="form-wrapper">
+
+    <h2>Register</h2>
+    
+    {% comment %} 
+        O método post é usado para dados mais sensíveis, como 
+        senhas, pois o método GET insere variáveis na URL.
+        Esse método também possibilita o envio de imagens.
+
+        enctype="multipart/form-data"
+            Necessário para enviar arquivos
+
+        - A url da form_action vem da view. Antes era: 
+          action="{% url "contact:create" %}" 
+    {% endcomment %}
+    <form 
+      action="{{ form_action }}"
+      method="POST"
+    >
+      {% comment %} Usado para proteção contra csrf {% endcomment %}
+      {% csrf_token %} 
+      
+      {% comment %} 
+        Itera sobre os campos do formulário criados na view
+      {% endcomment %}
+      
+      {% comment %} 
+        Os valores do post vão ser obtidos pelo name do input
+        lá na view, usando o método POST do request.
+          - field.id_for_label: id do campo
+      {% endcomment %}
+      
+      <div class="form-content">
+        {% for field in form %}
+          <div class="form-group">
+            <label for="field.id_for_label">{{ field.label }}</label>
+            {% comment %} 
+              O form é equivalente ao input abaixo
+              <input type="text" name="first_name" maxlength="255" id="id_first_name">
+            {% endcomment %}
+            {{ field }}
+            {% comment %}
+              Mostra os erros do formulário
+            {% endcomment %}
+            {{ field.errors }}
+            {% comment %}
+              Adiciona o texto de ajuda, caso tenha
+            {% endcomment %}
+            {% if field.help_text %}
+              <p class="help-text">
+                {{ field.help_text }}
+              </p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      
+      {% comment %}
+        Exibindo erros que não são de formulários
+          - Primeiro, verifica-se se há erros não atrelados
+          ao fomulário
+      {% endcomment %}
+      {% if form.non_field_errors %}
+        <div class="form-content">
+          <div class="form-group">
+            {% comment %} <p class="message error">Lorem ipsum dolor sit amet.</p> {% endcomment %}
+            <div class="message error">
+              {{ form.non_field_errors }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      
+      <div class="form-content">
+        <div class="form-group">
+          <button class="btn" type="submit">Send</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+{% endblock content %}
+

@@ -17,6 +17,13 @@ urlpatterns = [
     path('contact/<int:contact_id>/update/', views.update, name='update'), # Atualizando 
     path('contact/<int:contact_id>/delete/', views.delete, name='delete'), # Deletar 
 
+    # Dados dos usuários que acessam o site
+    # users (CRUD)
+    # path('user/<int:contact_id>/detail/', views.contact, name='contact'), # Leitura 
+    path('user/create/', views.register, name='register'), # Criação
+    # path('user/<int:contact_id>/update/', views.contact, name='contact'), # Atualizando 
+    # path('user/<int:contact_id>/delete/', views.contact, name='contact'), # Deletar 
+
     # Exemplo para dados dos usuários
     # users (CRUD)
     # path('users/<int:contact_id>/detail/', views.contact, name='contact'), # Leitura 

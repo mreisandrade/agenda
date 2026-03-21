@@ -131,7 +131,7 @@ TIME_ZONE = 'America/Sao_Paulo'
 # Refere-se a tradução
 # Recomendado desativar caso não seja utilizado para fins de
 # otimização
-USE_I18N = False
+USE_I18N = True
 
 USE_TZ = True
 

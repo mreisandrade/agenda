@@ -2,8 +2,12 @@
 from django import forms
 # Para validação de dados
 from django.core.exceptions import ValidationError
-# Importando o model
+# Importando o model dos contatos
 from contact.views import Contact
+# Importando o model do usuários
+from django.contrib.auth.models import User
+# Importando o formulário para criação de usuários
+from django.contrib.auth.forms import UserCreationForm
 
 
 # Criando um formulário com base em um modelo (ModelForm)
@@ -151,3 +155,62 @@ class ContactForm(forms.ModelForm):
             )
 
         return first_name
+
+
+# Formulário para a criação de usuários
+class RegisterForm(UserCreationForm):
+    # Alterando os campos
+    first_name = forms.CharField(
+        # Obriga o envio 
+        required=True,
+        # Tamanho mínimo requerido
+        # min_length=3,
+        # Mundando as mensagens de erro
+        # error_messages={
+        #     'required': 'Tem que enviar o nome, pow',
+        # }
+    )
+    last_name = forms.CharField(
+        # Obriga o envio 
+        required=True,
+    )
+    email = forms.EmailField(
+        # Obriga o envio 
+        required=True,
+    )
+
+    # A partir do momento em que a classe Meta é criada, é
+    # necessário informar os campos do formulário
+    class Meta:
+        # model utilizado
+        model = User
+        # Campos do formulário
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'username',
+            'password1',
+            # Confirmação da senha
+            'password2',
+        ]
+
+    
+    # Valida o e-mail
+    def clean_email(self):
+        # Obtendo o e=mail do usuário
+        email = self.cleaned_data.get('email')
+
+        # Verificando se o email já está cadastrado
+        if User.objects.filter(email=email).exists():
+            # Exibe um erro caso já exista o email
+            self.add_error(
+                'email',
+                ValidationError(
+                    'Já existe esse e-mail',
+                    code='invalid',
+                ),
+            )
+
+        return email
+    
