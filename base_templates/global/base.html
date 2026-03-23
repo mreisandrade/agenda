@@ -6,6 +6,9 @@
 <body>
     {% include "global/partial/header.html" %}
 
+    {% comment %} Mesanges da página {% endcomment %}
+    {% include "global/partial/messages.html" %}
+
     <main class="content">
         {% block content %}{% endblock content %}
 

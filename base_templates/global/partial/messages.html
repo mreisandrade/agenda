@@ -1,0 +1,11 @@
+{% comment %} 
+    Verficando se há mensagens exibindo-as caso positivo.
+    Tag são as tags das mensagens (tipos). 
+{% endcomment %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
