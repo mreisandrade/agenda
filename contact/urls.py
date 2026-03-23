@@ -24,6 +24,10 @@ urlpatterns = [
     # path('user/<int:contact_id>/update/', views.contact, name='contact'), # Atualizando 
     # path('user/<int:contact_id>/delete/', views.contact, name='contact'), # Deletar 
 
+    # Login e logout do usuário
+    path('user/login/', views.login_view, name='login'),
+    path('user/logout/', views.logout_view, name='logout'),
+
     # Exemplo para dados dos usuários
     # users (CRUD)
     # path('users/<int:contact_id>/detail/', views.contact, name='contact'), # Leitura 
