@@ -3,8 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 # Formulário do form do autenticador
 from django.contrib.auth.forms import AuthenticationForm
+# Exige que o usuário esteja logado para acesasr a view
+from django.contrib.auth.decorators import login_required
 
-from contact.forms import RegisterForm
+from contact.forms import RegisterForm, RegisterUpdateForm
 
 
 ''' Flash messages
@@ -47,7 +49,7 @@ def register(request):
     )
 
 
-# View de login 
+# View de login
 def login_view(request):
     # Formulário padrão de autenticador de usuário do Django
     # O primeiro parâmetro é a request
@@ -79,8 +81,53 @@ def login_view(request):
     )
 
 
+# Exige que o usuário esteja logado para acesasr a view
+# Caso não esteja, redireciona para login_url
+@login_required(login_url='contact:login')
 # View de logout
 def logout_view(request):
     # Fazendo o logout do usuário
     auth.logout(request)
     return redirect('contact:login')
+
+
+# Exige que o usuário esteja logado para acesasr a view
+# Caso não esteja, redireciona para login_url
+@login_required(login_url='contact:login')
+def user_update(request):
+    # Passando os dados do usuário LOGADO para o formulário
+    form = RegisterUpdateForm(instance=request.user)
+
+    # Se o método naõ for POST (for GET)
+    if request.method != 'POST':
+        return render(
+            request,
+            'contact/user_update.html',
+            {
+                'form': form,
+            }
+        )
+    
+    # Pegando os dados do formulário
+    form = RegisterUpdateForm(
+        instance=request.user,
+        data=request.POST,
+    )
+
+    # Caso o formulário não for válido
+    if not form.is_valid():
+        # Renderiza a mesma view de atualização dos dados
+        return render(
+            request,
+            'contact/user_update.html',
+            {
+                'form': form,
+            }
+        )
+
+    # Caso seja válido, atualiza os dados
+    # user vem do formulário RegisterUpdateForm
+    user = form.save()
+
+    # Renderiza a mesma view de atualização dos dados
+    return redirect('contact:user_update')

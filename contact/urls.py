@@ -18,15 +18,15 @@ urlpatterns = [
     path('contact/<int:contact_id>/delete/', views.delete, name='delete'), # Deletar 
 
     # Dados dos usuários que acessam o site
-    # users (CRUD)
-    # path('user/<int:contact_id>/detail/', views.contact, name='contact'), # Leitura 
-    path('user/create/', views.register, name='register'), # Criação
-    # path('user/<int:contact_id>/update/', views.contact, name='contact'), # Atualizando 
-    # path('user/<int:contact_id>/delete/', views.contact, name='contact'), # Deletar 
+    # Criação do usuário
+    path('user/create/', views.register, name='register'), 
 
     # Login e logout do usuário
     path('user/login/', views.login_view, name='login'),
     path('user/logout/', views.logout_view, name='logout'),
+    # Atualiza o usuário LOGADO
+    path('user/update/', views.user_update, name='user_update'),
+
 
     # Exemplo para dados dos usuários
     # users (CRUD)

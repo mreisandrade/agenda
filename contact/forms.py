@@ -8,6 +8,8 @@ from contact.views import Contact
 from django.contrib.auth.models import User
 # Importando o formulário para criação de usuários
 from django.contrib.auth.forms import UserCreationForm
+# Validador de senhas
+from django.contrib.auth import password_validation
 
 
 # Criando um formulário com base em um modelo (ModelForm)
@@ -214,3 +216,151 @@ class RegisterForm(UserCreationForm):
 
         return email
     
+
+# Formulário para atualizar dados do usuário
+class RegisterUpdateForm(forms.ModelForm):
+    # Alterando campos do formulário
+    first_name = forms.CharField(
+        # Obriga o envio 
+        required=True,
+        # Tamanho mínimo requerido
+        min_length=3,
+        # Tamanho máximo requerido
+        max_length=30,
+        # Mensagem de ajuda
+        help_text='Necessário',
+    )
+    last_name = forms.CharField(
+        # Obriga o envio 
+        required=True,
+        # Tamanho mínimo requerido
+        min_length=3,
+        # Tamanho máximo requerido
+        max_length=30,
+        # Mensagem de ajuda
+        help_text='Necessário',
+    )
+    # Senhas (normal + confirmação)
+    password1 = forms.CharField(
+        label='Password',
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+            },
+        ),
+        # Exibe os requisitos da senha
+        help_text=password_validation.password_validators_help_text_html(),
+        required=False,
+    )
+    password2 = forms.CharField(
+        label='Password confirmation',
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+            },
+        ),
+        help_text='Use the same password as before',
+        required=False,
+    )
+
+
+    # A partir do momento em que a classe Meta é criada, é
+    # necessário informar os campos do formulário
+    class Meta:
+        # model utilizado
+        model = User
+        # Campos do formulário
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'username',
+        ]
+
+
+    # Validando os dados enviados pelo usuário
+    def clean(self):
+        # As senhas não são salvas automaticamente pois
+        # necessitam ser criptografadas
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        # Verifica se há dados no password1
+        if password1 or password2:
+            # Verifica se as senhas são diferentes
+            if password1 != password2:
+                # Verifica se as senhas são diferentes
+                self.add_error(
+                    'password2',
+                    ValidationError('Senhas não batem.')
+                )
+
+        return super().clean()
+    
+
+    # Função que salva os dados (inclusive a senha)
+    def save(self, commit=True):
+        # Pegando os dados enviados
+        cleaned_data = self.cleaned_data
+        # Pegando o usuário sem comitar as informações
+        user = super().save(commit=False)
+
+        password = cleaned_data.get('password1')
+
+        # Configurando a nova senha
+        if password:
+            user.set_password(password)
+
+        # Salvando os dados
+        if commit:
+            user.save()
+
+        # É necessário retornar o usuário 
+        # Para ser usado na view
+        return user
+
+
+    # Valida o e-mail
+    def clean_email(self):
+        # Obtendo o e=mail do usuário
+        email = self.cleaned_data.get('email')
+        # Email atual do usuário logado 
+        current_email = self.instance.email
+
+        # Verifica se o email é diferente do cadastro do usuário
+        # Se for, é porque ele quer alterar o email
+        if current_email != email:
+            # Verificando se o email já está cadastrado
+            if User.objects.filter(email=email).exists():
+                # Exibe um erro caso já exista o email
+                self.add_error(
+                    'email',
+                    ValidationError(
+                        'Já existe esse e-mail',
+                        code='invalid',
+                    ),
+                )
+
+        return email
+
+
+    # Valida a senha
+    def clean_password1(self):
+        password1 = self.cleaned_data.get('password1')
+
+        # Se houver password (quer modificar a senha)
+        if password1:
+            # Valida a senha
+            try:
+                password_validation.validate_password(password1)
+            except ValidationError as errors:
+                # Mostrando os erros ao usuário
+                self.add_error(
+                    'password1',
+                    ValidationError(errors)
+                )
+
+        return password1
+        

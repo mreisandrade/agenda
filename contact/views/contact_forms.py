@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+# Exige que o usuário esteja logado para acesasr a view
+from django.contrib.auth.decorators import login_required
 
 # Importando o formulário criado 
 from contact.forms import ContactForm
 from contact.models import Contact
 
 
+# Exige que o usuário esteja logado para acesasr a view
+# Caso não esteja, redireciona para login_url
+@login_required(login_url='contact:login')
 # View para criar contatos
 def create(request):
     # Criando uma variável reversa
@@ -34,6 +39,12 @@ def create(request):
             contact = form.save(commit=False)
             # Mudando outros atributos do contato
             # contact.show = False
+
+            # Atribuindo o contato ao proprietário
+            # (usuário logado)
+            # Isso é garantido pelo @login_required
+            contact.owner = request.user
+
             # Salva o formulário na base de dados
             form.save()
 
@@ -62,6 +73,9 @@ def create(request):
     ) 
   
 
+# Exige que o usuário esteja logado para acesasr a view
+# Caso não esteja, redireciona para login_url
+@login_required(login_url='contact:login')
 # View para atualizar um contato
 def update(request, contact_id):
     # Obtém o contato
@@ -69,6 +83,8 @@ def update(request, contact_id):
         Contact, 
         id=contact_id,
         show=True,
+        # Verifica se o usuário logado é o proprietário
+        owner=request.user,
     )
 
     # Criando uma variável reversa
@@ -98,6 +114,7 @@ def update(request, contact_id):
             contact_form = form.save(commit=False)
             # Mudando outros atributos do contato
             # contact.show = False
+
             # Salva o formulário na base de dados
             form.save()
 
@@ -126,6 +143,9 @@ def update(request, contact_id):
     ) 
 
 
+# Exige que o usuário esteja logado para acesasr a view
+# Caso não esteja, redireciona para login_url
+@login_required(login_url='contact:login')
 # View para deletar um contato
 def delete(request, contact_id):
     # Obtém o contato
